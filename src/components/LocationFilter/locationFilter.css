@@ -1,6 +1,10 @@
 #location-filter {
     width: 0%;
+    display: none;
 }
+
 #location-filter.expanded{
     width: 70%;
+    flex-flow: column;
+    display: flex;
 }

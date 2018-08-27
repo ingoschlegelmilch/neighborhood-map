@@ -1,7 +1,4 @@
 #map {
-    background-color: black;
-    color: white;
-    display: flex;
-    flex: 1 auto;
-    height: 100%;
+    z-index: 1000;
+    flex: 0 1 auto;
 }

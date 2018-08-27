@@ -1,8 +1,23 @@
-html, body, #root, .App, #container {
+* {
+  box-sizing: border-box;
+}
+
+article, aside, footer, header, hgroup, main, nav, section {
+  margin: 0;
+  box-sizing: border-box;
+}
+
+html, body {
   height: 100%;
+  margin: 0;
+}
+
+.App {
+  display: flex;
+  flex-flow: column;
 }
 
 #container {
-  margin-top: 2.5rem;
   display: flex;
+  height: calc(100% - 2.5rem);
 }
