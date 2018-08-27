@@ -1,7 +1,7 @@
 import React from 'react'
 
 import './locationFilter.css'
-import Locations from '../Locations/Locations'
+import Locations from './Locations/Locations'
 
 const LocationFilter = ({ expanded, locations, query, onChange }) => (
     <div id="location-filter" className={expanded ? 'expanded' : null}>

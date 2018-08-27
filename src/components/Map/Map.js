@@ -10,7 +10,8 @@ class MapContainer extends Component {
         selectedPlace: {}
     }
 
-    onMarkerClick = (props, marker, e) => {
+    onMarkerClick = (props, marker) => {
+        console.log(props)
         this.setState({
             selectedPlace: props,
             activeMarker: marker,
@@ -30,7 +31,8 @@ class MapContainer extends Component {
     render() {
         const { places } = this.props;
         return (
-            <Map google={this.props.google} onClick={this.onMapClicked}
+            <Map google={this.props.google}
+                onClick={this.onMapClicked}
                 zoom={14}
                 containerStyle={{ width: '100%', height: 'calc(100% - 2.5rem)' }}
                 onReady={this.props.onMapReady}
@@ -39,10 +41,14 @@ class MapContainer extends Component {
                     lng: -0.086
                 }}>
                 {places && places.map(place => {
+                    console.log("selected", this.state.selectedPlace.id)
                     return <Marker key={place.id}
                         title={place.title}
+                        icon={{
+                            url: this.state.selectedPlace.id === place.id ? "http://maps.google.com/mapfiles/ms/icons/blue-dot.png" : "http://maps.google.com/mapfiles/ms/icons/red-dot.png",
+                        }}
                         name={place.name}
-                        onClick={this.onMarkerClick}
+                        onClick={(props, marker) => this.onMarkerClick(place, marker)}
                         position={place.geometry.location} />
                 })}
 
@@ -50,7 +56,6 @@ class MapContainer extends Component {
                     marker={this.state.activeMarker}
                     visible={this.state.showingInfoWindow}>
                     <div>
-                        { console.log(this.state.selectedPlace)}
                         <h1>{this.state.selectedPlace.name}</h1>
                     </div>
                 </InfoWindow>

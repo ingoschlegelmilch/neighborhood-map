@@ -33,7 +33,7 @@ class App extends Component {
     })
   }
 
-  searchNearby = (google, map, center) => {
+  searchNearHome = (google, map) => {
     const service = new google.maps.places.PlacesService(map);
     const request = {
       location: this.home(),
@@ -51,19 +51,20 @@ class App extends Component {
   };
 
   mapReady = (mapProps, map) => {
-    this.searchNearby(mapProps.google, map, map.center)
+    this.searchNearHome(mapProps.google, map)
   }
 
   render() {
     return (
       <div className="App">
-        <Navigation
-          onClick={(e) => this.toggleNavigation()} />
+        <Navigation onClick={(e) => this.toggleNavigation()} />
         <div id="container">
+
           <LocationFilter expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
             value={this.state.filterQuery}
             locations={this.state.filteredLocations} />
+
           <div id="map">
             <Map onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
               places={this.state.filteredLocations} />
