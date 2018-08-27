@@ -1,0 +1,6 @@
+#location-filter {
+    width: 0%;
+}
+#location-filter.expanded{
+    width: 70%;
+}

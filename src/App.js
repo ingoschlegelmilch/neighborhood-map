@@ -1,18 +1,28 @@
 import React, { Component } from 'react';
-import logo from './logo.svg';
 import './App.css';
 
+import Navigation from './components/Navigation/Navigation'
+import Map from './components/Map/Map'
+import LocationFilter from './components/LocationFilter/LocationFilter'
+
 class App extends Component {
+  state = {
+    expandedNavigation: false
+  }
+
+  toggleNavigation() {
+    this.setState({ expandedNavigation: !this.state.expandedNavigation })
+  }
+
   render() {
     return (
       <div className="App">
-        <header className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h1 className="App-title">Welcome to React</h1>
-        </header>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+        <Navigation
+          onClick={(e) => this.toggleNavigation()} />
+        <div id="container">
+          <LocationFilter expanded={this.state.expandedNavigation} />
+          <Map />
+        </div>
       </div>
     );
   }

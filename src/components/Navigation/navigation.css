@@ -1,0 +1,13 @@
+#navigation {
+    background-color: darkblue;
+    height: 2.5rem;
+    left: 0;
+    position: fixed;
+    top: 0;
+    width: 100%;
+}
+
+#burger-icon {
+    fill: white;
+    padding: 0.25rem;
+}

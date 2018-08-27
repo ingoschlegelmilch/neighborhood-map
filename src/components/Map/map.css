@@ -1,0 +1,7 @@
+#map {
+    background-color: black;
+    color: white;
+    display: flex;
+    flex: 1 auto;
+    height: 100%;
+}
