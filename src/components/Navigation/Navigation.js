@@ -8,6 +8,7 @@ const Navigation = ({ onClick, expanded }) => (
         <a onClick={onClick}>
             <BurgerIcon expanded={expanded} />
         </a>
+        <h1>Neighborhood Map</h1>
     </nav>
 )
 

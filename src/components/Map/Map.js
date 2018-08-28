@@ -11,7 +11,6 @@ class MapContainer extends Component {
     }
 
     onMarkerClick = (props, marker) => {
-        console.log(props)
         this.setState({
             selectedPlace: props,
             activeMarker: marker,
@@ -28,20 +27,29 @@ class MapContainer extends Component {
         }
     }
 
+    width = () => {
+        const { isMobile, isTablet } = this.props.device
+        if (this.props.expandedNavigation) {
+            if (isMobile) return '30%'
+            if (isTablet) return '50%'
+            return '70%'
+        }
+        return '100%'
+    }
+
     render() {
-        const { places } = this.props;
+
         return (
             <Map google={this.props.google}
                 onClick={this.onMapClicked}
                 zoom={14}
-                containerStyle={{ width: '100%', height: 'calc(100% - 2.5rem)' }}
+                containerStyle={{ position: 'absolute', width: this.width(), height: 'calc(100% - 4rem)' }}
                 onReady={this.props.onMapReady}
                 initialCenter={{
                     lat: 51.5456582,
                     lng: -0.086
                 }}>
-                {places && places.map(place => {
-                    console.log("selected", this.state.selectedPlace.id)
+                {this.props.places && this.props.places.map(place => {
                     return <Marker key={place.id}
                         title={place.title}
                         icon={{

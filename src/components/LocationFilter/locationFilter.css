@@ -1,10 +1,53 @@
 #location-filter {
-    width: 0%;
     display: none;
 }
-
-#location-filter.expanded{
-    width: 70%;
+#location-filter.expanded {
     flex-flow: column;
     display: flex;
+    flex: 0 1 70%;
+    height: calc(100vh - 5.1rem);
+    background-color: #000030;
+    overflow: auto;
+}
+#location-filter.expanded input {
+    position: fixed;
+    height: 3rem;
+    padding: 0;
+    font-size: 1.2rem;
+    margin: 0;
+    width: 100%;
+}
+#location-filter.expanded input:focus {
+    background-color: white;
+}
+
+.locations {
+    list-style-type: none;
+    padding: 0;
+    background-color: #000030;
+    color: white;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    width: 100%;
+    margin-top: 3rem;
+}
+.locations li {
+    border-bottom: 1px solid #00afaf;
+    width: 100%;
+    padding: 1rem;    
+}
+.locations li:hover, li:focus {
+    background-color: #00afaf;
+    color: #000030;
+}
+
+@media (min-width: 426px) and (max-width: 1024px) {
+    #location-filter.expanded {
+        flex: 0 1 50%;
+    }
+}
+
+@media (min-width: 1025px) {
+    #location-filter.expanded {
+        flex: 0 1 30%;
+    }
 }

@@ -1,18 +1,44 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import './App.css';
+import './App.css'
 
 import Navigation from './components/Navigation/Navigation'
 import Map from './components/Map/Map'
 import LocationFilter from './components/LocationFilter/LocationFilter'
 
 class App extends Component {
+
   state = {
     expandedNavigation: false,
     places: [],
     filterQuery: "",
-    filteredLocations: []
+    filteredLocations: [],
+    width: 0,
+    height: 0,
+    isMobile: true,
+    isTablet: false,
+    isDesktop: false,
   }
+
+  componentDidMount() {
+    this.updateWindowDimensions()
+    window.addEventListener('resize', this.updateWindowDimensions)
+  }
+
+  componentWillUnmount() {
+    this.updateWindowDimensions()
+    window.removeEventListener('resize', this.updateWindowDimensions)
+  }
+
+  updateWindowDimensions = () => {
+    this.setState({ 
+      width: window.innerWidth, 
+      height: window.innerHeight, 
+      isMobile: window.innerWidth > 320 && window.innerWidth <= 425,
+      isTablet: window.innerWidth > 425 && window.innerWidth <= 1024,
+      isDesktop: window.innerWidth > 1024 
+    })
+   }
 
   home() {
     return {
@@ -60,13 +86,17 @@ class App extends Component {
         <Navigation onClick={(e) => this.toggleNavigation()} />
         <div id="container">
 
-          <LocationFilter expanded={this.state.expandedNavigation}
+          <LocationFilter
+            expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
             value={this.state.filterQuery}
             locations={this.state.filteredLocations} />
 
           <div id="map">
-            <Map onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
+            <Map 
+              device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
+              expandedNavigation={this.state.expandedNavigation}
+              onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
               places={this.state.filteredLocations} />
           </div>
         </div>
