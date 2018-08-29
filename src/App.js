@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
 
 import './App.css'
 
@@ -19,9 +20,11 @@ class App extends Component {
     height: 0,
     isMobile: true,
     isTablet: false,
-    isDesktop: false,
+    isDesktop: false    
   }
 
+  filterInput = React.createRef()
+  // Handles responsibility state ()
   componentDidMount() {
     this.updateWindowDimensions()
     window.addEventListener('resize', this.updateWindowDimensions)
@@ -33,14 +36,14 @@ class App extends Component {
   }
 
   updateWindowDimensions = () => {
-    this.setState({ 
-      width: window.innerWidth, 
-      height: window.innerHeight, 
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
       isMobile: window.innerWidth > 320 && window.innerWidth <= 425,
       isTablet: window.innerWidth > 425 && window.innerWidth <= 1024,
-      isDesktop: window.innerWidth > 1024 
+      isDesktop: window.innerWidth > 1024
     })
-   }
+  }
 
   home() {
     return {
@@ -76,9 +79,9 @@ class App extends Component {
             places: results,
             filteredLocations: results
           });
-        }         
+        }
       });
-    } catch(e) {
+    } catch (e) {
       console.log('offline')
       this.setState({
         places: offlinePlaces,
@@ -92,26 +95,36 @@ class App extends Component {
     this.searchNearHome(mapProps.google, map)
   }
 
+  focusInput = () => {
+      this.filterInput.current.focus()
+  }
+
   render() {
     return (
       <div className="App">
-        <Navigation onClick={(e) => this.toggleNavigation()} />
-        <div id="container">
+        <header>
+          <Navigation onClick={(e) => {
+            console.log("filterINput", this.filterInput)
+            this.toggleNavigation()
+            this.focusInput()
+            }}
+          />
+        </header>
 
+        <main id="container">
           <LocationFilter
+            focusInput={this.filterInput}
             expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
             value={this.state.filterQuery}
             locations={this.state.filteredLocations} />
 
-          <div id="map">
-            <Map 
-              device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
-              expandedNavigation={this.state.expandedNavigation}
-              onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
-              places={this.state.filteredLocations} />
-          </div>
-        </div>
+          <Map
+            device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
+            expandedNavigation={this.state.expandedNavigation}
+            onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
+            places={this.state.filteredLocations} />
+        </main>
       </div>
     );
   }

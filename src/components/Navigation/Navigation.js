@@ -5,10 +5,18 @@ import './navigation.css'
 
 const Navigation = ({ onClick, expanded }) => (
     <nav id="navigation">
-        <a onClick={onClick}>
+        <h1 tabIndex="0">Neighborhood Map</h1>
+        <a
+            onKeyPress={onClick}
+            onClick={onClick}
+            role="button"
+            aria-label="Toggle location filter"
+            aria-haspopup="true"
+            aria-controls="location-filter"
+            aria-expanded={expanded ? "true" : "false"}
+        >
             <BurgerIcon expanded={expanded} />
         </a>
-        <h1>Neighborhood Map</h1>
     </nav>
 )
 
