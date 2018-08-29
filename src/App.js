@@ -6,6 +6,8 @@ import Navigation from './components/Navigation/Navigation'
 import Map from './components/Map/Map'
 import LocationFilter from './components/LocationFilter/LocationFilter'
 
+import offlinePlaces from './lib/offlinePlaces';
+
 class App extends Component {
 
   state = {
@@ -67,13 +69,23 @@ class App extends Component {
       type: ['food']
     };
 
-    service.nearbySearch(request, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK)
-        this.setState({
-          places: results,
-          filteredLocations: results
-        });
-    });
+    try {
+      service.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.setState({
+            places: results,
+            filteredLocations: results
+          });
+        }         
+      });
+    } catch(e) {
+      console.log('offline')
+      this.setState({
+        places: offlinePlaces,
+        filteredLocations: offlinePlaces
+      })
+    }
+
   };
 
   mapReady = (mapProps, map) => {
