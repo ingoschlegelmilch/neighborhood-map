@@ -6,6 +6,7 @@ const Locations = ({ locations, onClick }) => {
             {locations && locations.map(p =>
                 <li key={p.id}
                     onClick={() => onClick(p)}
+                    onKeyPress={() => onClick(p)}
                 aria-label={p.name}
                 tabIndex="0">{p.name}</li>
                 )}
