@@ -99,7 +99,7 @@ class App extends Component {
 
   // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
   focusInput = () => {
-    this.filterInput.current.focus()
+   // this.filterInput.current.focus()
   }
 
   onMarkerClick = (place, marker) => {
