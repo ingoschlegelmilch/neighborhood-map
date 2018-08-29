@@ -95,6 +95,7 @@ class App extends Component {
     this.searchNearHome(mapProps.google, map)
   }
 
+  // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
   focusInput = () => {
       this.filterInput.current.focus()
   }
