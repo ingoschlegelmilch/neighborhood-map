@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import { findDOMNode } from 'react-dom'
+import { Marker } from 'google-maps-react'
 
 import './App.css'
 
@@ -20,7 +21,9 @@ class App extends Component {
     height: 0,
     isMobile: true,
     isTablet: false,
-    isDesktop: false    
+    isDesktop: false,
+    activeLocation: null,
+    activeMarker: null
   }
 
   filterInput = React.createRef()
@@ -97,7 +100,36 @@ class App extends Component {
 
   // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
   focusInput = () => {
-      this.filterInput.current.focus()
+    this.filterInput.current.focus()
+  }
+
+  onMarkerClick = (place, marker) => {
+    this.setState({activeMarker: marker})
+  }
+
+  selectPlace = (place) => {  
+    const selectedMarker = (
+      <Marker key={place.id}
+        title={place.title}
+        icon={{
+          url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        }}
+        name={place.name}
+        locationSelect={(_, marker) => this.onMarkerClick(place, marker)}
+        position={place.geometry.location} />
+    )
+    console.log(selectedMarker)
+    this.setState({
+      selectedPlace: place,
+      selectedMarker: selectedMarker,
+    })
+  }
+
+  deselectPlace = () => {
+    this.setState({
+      selectedPlace: null,
+      selectedMarker: null,
+    })
   }
 
   render() {
@@ -108,7 +140,7 @@ class App extends Component {
             console.log("filterINput", this.filterInput)
             this.toggleNavigation()
             this.focusInput()
-            }}
+          }}
           />
         </header>
 
@@ -117,10 +149,16 @@ class App extends Component {
             focusInput={this.filterInput}
             expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
+            onClick={this.selectPlace}
             value={this.state.filterQuery}
             locations={this.state.filteredLocations} />
 
           <Map
+            markerRef={this.markerRef}
+            onSelectPlace={this.selectPlace}
+            onDeselectPlace={this.deselectPlace}
+            selectedPlace={this.state.selectedPlace}
+            selectedMarker={this.state.selectedMarker}
             device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
             expandedNavigation={this.state.expandedNavigation}
             onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}

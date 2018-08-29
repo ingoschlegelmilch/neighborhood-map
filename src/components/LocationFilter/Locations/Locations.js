@@ -1,9 +1,14 @@
 import React from 'react'
 
-const Locations = ({ locations }) => {
+const Locations = ({ locations, onClick }) => {
     return (
         <ol className="locations">
-            {locations && locations.map(p => <li key={p.id} aria-label={p.name} tabIndex="0">{p.name}</li>)}
+            {locations && locations.map(p =>
+                <li key={p.id}
+                    onClick={() => onClick(p)}
+                aria-label={p.name}
+                tabIndex="0">{p.name}</li>
+                )}
         </ol>
     )
 }
