@@ -13,6 +13,7 @@ const Navigation = ({ onClick, expanded }) => (
             aria-label="Toggle location filter"
             aria-haspopup="true"
             aria-controls="location-filter"
+            tabIndex="0"
             aria-expanded={expanded ? "true" : "false"}
         >
             <BurgerIcon expanded={expanded} />

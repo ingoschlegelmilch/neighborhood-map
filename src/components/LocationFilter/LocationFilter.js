@@ -10,9 +10,9 @@ const LocationFilter = ({ expanded, locations, query, onChange, focusInput }) =>
         aria-label="Location filter"
         role="menu"
         aria-hidden={expanded ? null : "true"}
-        tabIndex={expanded ? "-1" : null}
+        tabIndex={expanded ? "0" : null}
     >
-        <input 
+        <input
         ref={focusInput} 
         placeholder="Filter locations" 
         value={query} onChange={(e) => onChange(e.target.value)} 
