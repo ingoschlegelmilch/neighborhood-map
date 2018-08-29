@@ -2,6 +2,7 @@
     background-color: #000030;
     width: 100%;
     display: flex;
+    flex-flow: row-reverse;
     height: 4rem;
     align-items: center;
     z-index: 1000;

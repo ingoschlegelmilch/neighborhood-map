@@ -1,10 +1,14 @@
 import React, { Component } from 'react'
+import { findDOMNode } from 'react-dom'
+import { Marker } from 'google-maps-react'
 
 import './App.css'
 
 import Navigation from './components/Navigation/Navigation'
 import Map from './components/Map/Map'
 import LocationFilter from './components/LocationFilter/LocationFilter'
+
+import offlinePlaces from './lib/offlinePlaces';
 
 class App extends Component {
 
@@ -18,8 +22,11 @@ class App extends Component {
     isMobile: true,
     isTablet: false,
     isDesktop: false,
+    activeLocation: null,
+    activeMarker: null
   }
 
+  // Handles responsibility state ()
   componentDidMount() {
     this.updateWindowDimensions()
     window.addEventListener('resize', this.updateWindowDimensions)
@@ -31,14 +38,14 @@ class App extends Component {
   }
 
   updateWindowDimensions = () => {
-    this.setState({ 
-      width: window.innerWidth, 
-      height: window.innerHeight, 
+    this.setState({
+      width: window.innerWidth,
+      height: window.innerHeight,
       isMobile: window.innerWidth > 320 && window.innerWidth <= 425,
       isTablet: window.innerWidth > 425 && window.innerWidth <= 1024,
-      isDesktop: window.innerWidth > 1024 
+      isDesktop: window.innerWidth > 1024
     })
-   }
+  }
 
   home() {
     return {
@@ -67,39 +74,94 @@ class App extends Component {
       type: ['food']
     };
 
-    service.nearbySearch(request, (results, status) => {
-      if (status === google.maps.places.PlacesServiceStatus.OK)
-        this.setState({
-          places: results,
-          filteredLocations: results
-        });
-    });
+    try {
+      service.nearbySearch(request, (results, status) => {
+        if (status === google.maps.places.PlacesServiceStatus.OK) {
+          this.setState({
+            places: results,
+            filteredLocations: results
+          });
+        }
+      });
+    } catch (e) {
+      console.log('offline')
+      this.setState({
+        places: offlinePlaces,
+        filteredLocations: offlinePlaces
+      })
+    }
+
   };
 
   mapReady = (mapProps, map) => {
     this.searchNearHome(mapProps.google, map)
   }
 
+  // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
+  focusInput = () => {
+    this.filterInput.current.focus()
+  }
+
+  onMarkerClick = (place, marker) => {
+    this.setState({activeMarker: marker})
+  }
+
+  selectPlace = (place) => {  
+    const selectedMarker = (
+      <Marker key={place.id}
+        title={place.title}
+        icon={{
+          url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        }}
+        name={place.name}
+        locationSelect={(_, marker) => this.onMarkerClick(place, marker)}
+        position={place.geometry.location} />
+    )
+    console.log(selectedMarker)
+    this.setState({
+      selectedPlace: place,
+      selectedMarker: selectedMarker,
+    })
+  }
+
+  deselectPlace = () => {
+    this.setState({
+      selectedPlace: null,
+      selectedMarker: null,
+    })
+  }
+
   render() {
     return (
       <div className="App">
-        <Navigation onClick={(e) => this.toggleNavigation()} />
-        <div id="container">
+        <header>
+          <Navigation onClick={(e) => {
+            console.log("filterINput", this.filterInput)
+            this.toggleNavigation()
+            this.focusInput()
+          }}
+          />
+        </header>
 
+        <main id="container">
           <LocationFilter
+            focusInput={this.filterInput}
             expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
+            onClick={this.selectPlace}
             value={this.state.filterQuery}
             locations={this.state.filteredLocations} />
 
-          <div id="map">
-            <Map 
-              device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
-              expandedNavigation={this.state.expandedNavigation}
-              onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
-              places={this.state.filteredLocations} />
-          </div>
-        </div>
+          <Map
+            onSelectPlace={this.selectPlace}
+            onDeselectPlace={this.deselectPlace}
+            selectedPlace={this.state.selectedPlace}
+            selectedMarker={this.state.selectedMarker}
+            device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
+            expandedNavigation={this.state.expandedNavigation}
+            onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
+            places={this.state.filteredLocations} />
+        </main>
       </div>
     );
   }

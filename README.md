@@ -14,6 +14,11 @@ Like any create react app
 
     npm start
 
+# Issues
+
+I've tried to focus the filter input immediately after expanding the filter locations area, without success.
+I've left the code in there, to show my approach, maybe you've got a hint how to fix this.
+
 # Credits
 
 I'm using the [google-maps-react](https://github.com/fullstackreact/google-maps-react) package

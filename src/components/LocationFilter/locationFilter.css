@@ -5,7 +5,7 @@
     flex-flow: column;
     display: flex;
     flex: 0 1 70%;
-    height: calc(100vh - 5.1rem);
+    height: calc(100vh - 4rem);
     background-color: #000030;
     overflow: auto;
 }
@@ -38,6 +38,7 @@
 .locations li:hover, li:focus {
     background-color: #00afaf;
     color: #000030;
+    transition: 0.25s ease-in-out;
 }
 
 @media (min-width: 426px) and (max-width: 1024px) {
