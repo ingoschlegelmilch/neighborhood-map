@@ -26,7 +26,6 @@ class App extends Component {
     activeMarker: null
   }
 
-  filterInput = React.createRef()
   // Handles responsibility state ()
   componentDidMount() {
     this.updateWindowDimensions()
@@ -154,7 +153,6 @@ class App extends Component {
             locations={this.state.filteredLocations} />
 
           <Map
-            markerRef={this.markerRef}
             onSelectPlace={this.selectPlace}
             onDeselectPlace={this.deselectPlace}
             selectedPlace={this.state.selectedPlace}
