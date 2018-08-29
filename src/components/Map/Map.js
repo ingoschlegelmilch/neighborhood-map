@@ -51,7 +51,7 @@ class MapContainer extends Component {
                     lng: -0.086
                 }}>
                 {selectedPlace && selectedMarker}
-                {<InfoWindow google={this.props.google} map={this.props.map} visible={selectedPlace}
+                {<InfoWindow google={this.props.google} map={this.props.map} visible={Boolean(selectedPlace)}
                  position={
                     {lat: this.lat(selectedPlace), lng: this.lng(selectedPlace)}
                     }>
