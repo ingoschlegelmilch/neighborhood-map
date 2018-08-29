@@ -38,6 +38,7 @@
 .locations li:hover, li:focus {
     background-color: #00afaf;
     color: #000030;
+    transition: 0.25s ease-in-out;
 }
 
 @media (min-width: 426px) and (max-width: 1024px) {
