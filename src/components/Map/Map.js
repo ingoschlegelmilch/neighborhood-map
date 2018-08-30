@@ -28,14 +28,21 @@ class MapContainer extends Component {
         return -0.08318710000003193
     }
 
+    wikiAPI = (query) => {
+        fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&exintro&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${query}`)
+            .then(r => r.json())
+            .then(data => data.query.search[0].snippet)
+            .catch(() => "No Wikipedia entries found.")
+    }
+
     render() {
         const { onSelectPlace, onDeselectPlace, selectedPlace, selectedMarker, places } = this.props
-        
+
         if (selectedPlace) {
             console.log("place", {
                 lat: selectedPlace.geometry.location.lat(),
                 lng: selectedPlace.geometry.location.lng()
-                })
+            })
         }
         return (
             <Map
@@ -52,16 +59,17 @@ class MapContainer extends Component {
                 }}>
                 {selectedPlace && selectedMarker}
                 {<InfoWindow google={this.props.google} map={this.props.map} visible={Boolean(selectedPlace)}
-                 position={
-                    {lat: this.lat(selectedPlace), lng: this.lng(selectedPlace)}
+                    position={
+                        { lat: this.lat(selectedPlace), lng: this.lng(selectedPlace) }
                     }>
                     <div>
                         {console.log("inside marker", selectedPlace)}
-                        <h1>{selectedPlace && selectedPlace.name}</h1>
+                        <h2>{selectedPlace && selectedPlace.name}</h2>
+                        <div>{this.wikiAPI(selectedPlace && selectedPlace.name)}</div>
                     </div>
                 </InfoWindow>
                 }
-               
+
                 {!selectedPlace && places && places.map(place => {
                     return <Marker key={place.id}
                         title={place.title}

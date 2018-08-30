@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { findDOMNode } from 'react-dom'
 import { Marker } from 'google-maps-react'
 
 import './App.css'
