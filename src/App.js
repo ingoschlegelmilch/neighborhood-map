@@ -105,7 +105,7 @@ class App extends Component {
     this.setState({activeMarker: marker})
   }
 
-  selectPlace = (place) => {  
+  selectPlace = (place) => {
     const selectedMarker = (
       <Marker key={place.id}
         title={place.title}
@@ -165,4 +165,5 @@ class App extends Component {
     );
   }
 }
-export default App;
+
+export default App

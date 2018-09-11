@@ -63,7 +63,6 @@ class MapContainer extends Component {
                         { lat: this.lat(selectedPlace), lng: this.lng(selectedPlace) }
                     }>
                     <div>
-                        {console.log("inside marker", selectedPlace)}
                         <h2>{selectedPlace && selectedPlace.name}</h2>
                         <div>{this.wikiAPI(selectedPlace && selectedPlace.name)}</div>
                     </div>
