@@ -158,6 +158,7 @@ class App extends Component {
             selectedMarker={this.state.selectedMarker}
             device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
             expandedNavigation={this.state.expandedNavigation}
+            onToggleNavigation={this.toggleNavigation}
             onMapReady={(mapProps, map) => this.mapReady(mapProps, map)}
             places={this.state.filteredLocations} />
         </main>

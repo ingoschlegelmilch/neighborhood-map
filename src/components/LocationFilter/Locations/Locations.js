@@ -7,9 +7,9 @@ const Locations = ({ locations, onClick }) => {
                 <li key={p.id}
                     onClick={() => onClick(p)}
                     onKeyPress={() => onClick(p)}
-                aria-label={p.name}
-                tabIndex="0">{p.name}</li>
-                )}
+                    aria-label={p.name}
+                    tabIndex="0">{p.name}</li>
+            )}
         </ol>
     )
 }
