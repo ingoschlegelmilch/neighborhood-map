@@ -22,7 +22,8 @@ class App extends Component {
     isTablet: false,
     isDesktop: false,
     activeLocation: null,
-    activeMarker: null
+    activeMarker: null,
+    wikiEntries: []
   }
 
   // Handles responsibility state ()
@@ -105,6 +106,12 @@ class App extends Component {
     this.setState({activeMarker: marker})
   }
 
+  wikiAPI = (query) => {
+    fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&exintro&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${query}`)
+        .then(r => r.json().then(data => this.setState({wikiEntries: data.query.search})))
+        .catch(() => this.setState({wikiEntries: []}))
+  }
+
   selectPlace = (place) => {  
     const selectedMarker = (
       <Marker key={place.id}
@@ -116,7 +123,7 @@ class App extends Component {
         locationSelect={(_, marker) => this.onMarkerClick(place, marker)}
         position={place.geometry.location} />
     )
-    console.log(selectedMarker)
+    this.wikiAPI(place.name);
     this.setState({
       selectedPlace: place,
       selectedMarker: selectedMarker,
@@ -155,6 +162,7 @@ class App extends Component {
             onSelectPlace={this.selectPlace}
             onDeselectPlace={this.deselectPlace}
             selectedPlace={this.state.selectedPlace}
+            wikiEntries={this.state.wikiEntries}
             selectedMarker={this.state.selectedMarker}
             device={{ isMobile: this.state.isMobile, isTablet: this.state.isTablet }}
             expandedNavigation={this.state.expandedNavigation}

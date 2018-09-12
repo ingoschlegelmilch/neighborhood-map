@@ -28,15 +28,8 @@ class MapContainer extends Component {
         return -0.08318710000003193
     }
 
-    wikiAPI = (query) => {
-        fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&exintro&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${query}`)
-            .then(r => r.json())
-            .then(data => data.query.search[0].snippet)
-            .catch(() => "No Wikipedia entries found.")
-    }
-
     render() {
-        const { onSelectPlace, onDeselectPlace, selectedPlace, selectedMarker, places } = this.props
+        const { onToggleNavigation, expandedNavigation, onSelectPlace, onDeselectPlace, selectedPlace, selectedMarker, places, wikiEntries } = this.props
 
         if (selectedPlace) {
             console.log("place", {
@@ -47,7 +40,12 @@ class MapContainer extends Component {
         return (
             <Map
                 google={this.props.google}
-                onClick={onDeselectPlace}
+                onClick={() => {
+                    if (expandedNavigation) {
+                        onToggleNavigation()
+                    }
+                    onDeselectPlace()
+                }}
                 zoom={14}
                 keyboard={false}
                 containerStyle={{ position: 'absolute', width: this.width(), height: 'calc(100% - 4rem)' }}
@@ -58,14 +56,24 @@ class MapContainer extends Component {
                     lng: -0.086
                 }}>
                 {selectedPlace && selectedMarker}
-                {<InfoWindow google={this.props.google} map={this.props.map} visible={Boolean(selectedPlace)}
+                {<InfoWindow
+                    google={this.props.google}
+                    map={this.props.map}
+                    visible={Boolean(selectedPlace)}
                     position={
                         { lat: this.lat(selectedPlace), lng: this.lng(selectedPlace) }
-                    }>
+                    }
+                    onClose={onDeselectPlace}
+                >
                     <div>
-                        {console.log("inside marker", selectedPlace)}
                         <h2>{selectedPlace && selectedPlace.name}</h2>
-                        <div>{this.wikiAPI(selectedPlace && selectedPlace.name)}</div>
+                        {selectedPlace &&
+                            <ol>
+                                {wikiEntries.map(e => 
+                                <li>{e.title}</li>
+                                )}
+                            </ol>
+                        }
                     </div>
                 </InfoWindow>
                 }
