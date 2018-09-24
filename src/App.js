@@ -14,6 +14,8 @@ class App extends Component {
   state = {
     expandedNavigation: false,
     places: [],
+    filterInput: React.createRef(),
+    focusFilterInput: this.focusFilterInput.bind(this),
     filterQuery: "",
     filteredLocations: [],
     width: 0,
@@ -98,8 +100,8 @@ class App extends Component {
   }
 
   // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
-  focusInput = () => {
-   // this.filterInput.current.focus()
+  focusFilterInput = () => {
+   this.filterInput.current.focus()
   }
 
   onMarkerClick = (place, marker) => {
@@ -142,16 +144,17 @@ class App extends Component {
       <div className="App">
         <header>
           <Navigation onClick={(e) => {
-            console.log("filterINput", this.filterInput)
+            console.log("filterInput", this.filterInput)
             this.toggleNavigation()
-            this.focusInput()
+            this.focusFilterInput()
           }}
           />
         </header>
 
         <main id="container">
           <LocationFilter
-            focusInput={this.filterInput}
+            filterInput={this.filterInput}
+            focusInput={this.focusFilterInput}
             expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
             onClick={this.selectPlace}
