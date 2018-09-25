@@ -5,5 +5,4 @@ import App from './App';
 import register, { unregister } from './registerServiceWorker';
 
 ReactDOM.render(<App />, document.getElementById('root'));
-unregister();
 register();
