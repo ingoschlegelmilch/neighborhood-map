@@ -4,6 +4,12 @@ import './locationFilter.css'
 import Locations from './Locations/Locations'
 
 class LocationFilter extends Component {
+    
+    componentDidUpdate() {
+        const { expanded, focusInput } = this.props
+        if (expanded) focusInput()
+    }
+
     render() {
         const { expanded, locations, query, onChange, filterInput, focusInput, onClick } = this.props
         return (

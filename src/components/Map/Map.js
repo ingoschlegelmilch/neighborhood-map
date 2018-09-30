@@ -70,7 +70,7 @@ class MapContainer extends Component {
                         {selectedPlace &&
                             <ol>
                                 {wikiEntries.map(e => 
-                                <li>{e.title}</li>
+                                <li key={e.pageid}>{e.title}</li>
                                 )}
                             </ol>
                         }

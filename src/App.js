@@ -15,7 +15,6 @@ class App extends Component {
     expandedNavigation: false,
     places: [],
     filterInput: React.createRef(),
-    focusFilterInput: this.focusFilterInput.bind(this),
     filterQuery: "",
     filteredLocations: [],
     width: 0,
@@ -23,8 +22,8 @@ class App extends Component {
     isMobile: true,
     isTablet: false,
     isDesktop: false,
-    activeLocation: null,
-    activeMarker: null,
+    selectedPlace: null,
+    selectedMarker: null,
     wikiEntries: []
   }
 
@@ -101,11 +100,11 @@ class App extends Component {
 
   // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
   focusFilterInput = () => {
-   this.filterInput.current.focus()
+   this.state.filterInput.current.focus()
   }
 
   onMarkerClick = (place, marker) => {
-    this.setState({activeMarker: marker})
+    this.setState({selectedMarker: marker, selectedPlace: place})
   }
 
   wikiAPI = (query) => {
@@ -125,7 +124,7 @@ class App extends Component {
         locationSelect={(_, marker) => this.onMarkerClick(place, marker)}
         position={place.geometry.location} />
     )
-    this.wikiAPI(place.name);
+    this.wikiAPI(place.name)
     this.setState({
       selectedPlace: place,
       selectedMarker: selectedMarker,
@@ -144,16 +143,15 @@ class App extends Component {
       <div className="App">
         <header>
           <Navigation onClick={(e) => {
-            console.log("filterInput", this.filterInput)
+            console.log("filterInput", this.state.filterInput.current)
             this.toggleNavigation()
-            this.focusFilterInput()
           }}
           />
         </header>
 
         <main id="container">
           <LocationFilter
-            filterInput={this.filterInput}
+            filterInput={this.state.filterInput}
             focusInput={this.focusFilterInput}
             expanded={this.state.expandedNavigation}
             onChange={this.updateFilterQuery}
