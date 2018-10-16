@@ -142,7 +142,6 @@ class App extends Component {
       <div className="App">
         <header>
           <Navigation onClick={(e) => {
-            console.log("filterINput", this.filterInput)
             this.toggleNavigation()
             this.focusInput()
           }}
