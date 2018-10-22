@@ -11,7 +11,7 @@ class LocationFilter extends Component {
     }
 
     render() {
-        const { expanded, locations, query, onChange, filterInput, focusInput, onClick } = this.props
+        const { selectedPlace, selectedMarker, expanded, locations, query, onChange, filterInput, focusInput, onClick } = this.props
         return (
             <section
                 id="location-filter"

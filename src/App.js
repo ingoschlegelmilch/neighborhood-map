@@ -151,6 +151,8 @@ class App extends Component {
 
         <main id="container">
           <LocationFilter
+            selectedPlace={this.state.selectedPlace}
+            selectedMarker={this.state.selectedMarker}
             filterInput={this.state.filterInput}
             focusInput={this.focusFilterInput}
             expanded={this.state.expandedNavigation}

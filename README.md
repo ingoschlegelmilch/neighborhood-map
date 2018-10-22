@@ -20,7 +20,7 @@ I've tried to focus the filter input immediately after expanding the filter loca
 I've left the code in there, to show my approach, maybe you've got a hint how to fix this.
 
 ## ARIA
-According to the reviewer, I should have used menu and menuitem elements for the location filter, but after doing further research on this, I have read that list elements are standard to use now and menuitems are no longer considered best practices.
+The last piece that seems to be missing is keyboard navigation for the location filter, but I'm kind of clueless on how to implement this feature in react, as DOM reference isn't an option.
 
 # Credits
 
