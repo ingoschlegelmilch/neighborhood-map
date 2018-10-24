@@ -67,14 +67,14 @@ class App extends Component {
   }
 
   searchNearHome = (google, map) => {
-    const service = new google.maps.places.PlacesService(map);
-    const request = {
-      location: this.home(),
-      radius: '500',
-      type: ['food']
-    };
-
     try {
+      const service = new google.maps.places.PlacesService(map);
+      const request = {
+        location: this.home(),
+        radius: '500',
+        type: ['food']
+      };
+
       service.nearbySearch(request, (results, status) => {
         if (status === google.maps.places.PlacesServiceStatus.OK) {
           this.setState({
@@ -90,7 +90,6 @@ class App extends Component {
         filteredLocations: offlinePlaces
       })
     }
-
   };
 
   mapReady = (mapProps, map) => {
@@ -99,20 +98,20 @@ class App extends Component {
 
   // TODO: no idea why that's not working. I'm creating a ref and am trying to focus it.
   focusInput = () => {
-   // this.filterInput.current.focus()
+    // this.filterInput.current.focus()
   }
 
   onMarkerClick = (place, marker) => {
-    this.setState({activeMarker: marker})
+    this.setState({ activeMarker: marker })
   }
 
   wikiAPI = (query) => {
     fetch(`https://en.wikipedia.org/w/api.php?action=query&list=search&prop=info&exintro&inprop=url&utf8=&format=json&origin=*&srlimit=20&srsearch=${query}`)
-        .then(r => r.json().then(data => this.setState({wikiEntries: data.query.search})))
-        .catch(() => this.setState({wikiEntries: []}))
+      .then(r => r.json().then(data => this.setState({ wikiEntries: data.query.search })))
+      .catch(() => this.setState({ wikiEntries: [] }))
   }
 
-  selectPlace = (place) => {  
+  selectPlace = (place) => {
     const selectedMarker = (
       <Marker key={place.id}
         title={place.title}
