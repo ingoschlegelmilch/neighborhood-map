@@ -18,7 +18,6 @@ class LocationFilter extends Component {
                 className={expanded ? 'expanded' : null}
                 aria-label="Location filter"
                 role="menu"
-                aria-activedescendant={focusInput}
                 aria-hidden={expanded ? null : "true"}
                 tabIndex={expanded ? "0" : null}
             >
